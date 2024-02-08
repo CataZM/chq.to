@@ -1,0 +1,10 @@
+<h1>Ingrese la contraseña para acceder al link <%= @link.name %></h1>
+
+<%= form_with(url: check_password_link_path(@link), method: :post) do |form| %>
+  <div class="field">
+    <%= form.label :password, "Contraseña:" %>
+    <%= form.password_field :password, class: "form-control" %>
+  </div>
+
+  <%= form.submit "Continuar", class: "btn btn-primary" %>
+<% end %>

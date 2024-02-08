@@ -1,0 +1,64 @@
+<h1>Estadísticas del Link <%= @link.name %> </h1>
+
+<%= form_tag(stats_link_path(@link), method: "get") do %>
+  <div class="field">
+    <%= label_tag :ip_address, "Buscar por dirección IP:" %>
+    <%= text_field_tag :ip_address, params[:ip_address] %>
+  </div>
+
+  <div class="field">
+    <%= label_tag :start_date, "Fecha de inicio:" %>
+    <%= date_field_tag :start_date, params[:start_date] %>
+  </div>
+
+  <div class="field">
+    <%= label_tag :end_date, "Fecha de fin:" %>
+    <%= date_field_tag :end_date, params[:end_date] %>
+  </div>
+
+  <%= submit_tag "Buscar", class: "btn btn-primary" %>
+<% end %>
+
+<hr>
+
+<!-- Detalle de Accesos -->
+<h2>Detalle de Accesos</h2>
+<i>Tipo de link: <%= @link.type %></i><br>
+<i>Cantidad total de accesos: <%= @link.access_count %></i>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Fecha y Hora</th>
+      <th>Dirección IP</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @access_details.each do |access| %>
+      <tr>
+        <td><%= access.created_at %></td>
+        <td><%= access.ip_address %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<hr>
+
+<!-- Cantidad de Accesos por Día -->
+<h2>Cantidad de Accesos por Día</h2>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Día</th>
+      <th>Cantidad de Accesos</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @access_count_by_day.each do |day, count| %>
+      <tr>
+        <td><%= day %></td>
+        <td><%= count %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

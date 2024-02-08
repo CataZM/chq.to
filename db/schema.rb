@@ -10,8 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_07_220433) do
-  create_table "link_regulars", force: :cascade do |t|
+ActiveRecord::Schema[7.1].define(version: 2024_02_08_103156) do
+  create_table "accesses", force: :cascade do |t|
+    t.integer "link_id", null: false
+    t.string "ip_address"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["link_id"], name: "index_accesses_on_link_id"
+  end
+
+  create_table "links", force: :cascade do |t|
     t.string "name"
     t.string "slug"
     t.string "url"
@@ -23,8 +31,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_07_220433) do
     t.string "password"
     t.boolean "accessed"
     t.string "type"
-    t.index ["slug"], name: "index_link_regulars_on_slug", unique: true
-    t.index ["user_id"], name: "index_link_regulars_on_user_id"
+    t.index ["slug"], name: "index_links_on_slug", unique: true
+    t.index ["user_id"], name: "index_links_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -41,5 +49,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_07_220433) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
-  add_foreign_key "link_regulars", "users"
+  add_foreign_key "accesses", "links"
+  add_foreign_key "links", "users"
 end

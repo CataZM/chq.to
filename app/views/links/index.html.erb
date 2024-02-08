@@ -1,0 +1,69 @@
+<h1>Links</h1>
+
+<% if flash[:alert].present? %>
+  <div class="alert alert-danger" role="alert">
+    <%= flash[:alert] %>
+  </div>
+<% end %>
+
+<% if current_user %>
+<%= button_to "Crear link", new_link_path, method: "get", class: "btn btn-small btn-primary mx-2" %>
+    <div id="links_propios">
+        <h2>Mis links</h2>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Link Chq.to</th>
+                <th scope="col">Categoría</th>
+                <th scope="col">Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% @links[:own_links].each do |link| %>
+                <tr>
+                    <td><%= link.name %></td>
+                    <td><%= "https://chq.to/l/" + link.slug %></td>
+                    <% if link.type != "Link" %>
+                        <td><%= link.type %></td>
+                    <% else %>
+                        <td><%= "Regular" %></td>
+                    <% end %>
+                    <td>
+                    <%= button_to "Editar", edit_link_path(link), method: "get", class: "btn btn-small btn-primary mx-2" %>
+                    <%= button_to "Eliminar", custom_delete_link_path(link), method: :delete, data: { confirm: "¿Estás seguro?" }, class: "btn btn-small btn-danger mx-2" %>
+                    <%= button_to "Estadísticas", stats_link_path(link), method: "get", class: "btn btn-small btn-info mx-2" %>
+                    </td>
+                </tr>
+            <% end %>
+            </tbody>
+        </table>
+    </div>
+<% end %>
+
+<div id="links_agenos">
+    <h2>Links de otros usuarios</h2>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col">Link Chq.to</th>
+            <th scope="col">Categoria</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @links[:others_links].each do |link| %>
+            <tr>
+                <td><%= link.name %></td>
+                <% if link.type != "Link" %>
+                    <td><%= link_to "https://chq.to/l/#{link.slug}", redirect_link_path(link) %></td>
+                    <td><%= link.type %></td>
+                <% else %>
+                    <td><%= link_to "https://chq.to/l/#{link.slug}", link.url %></td>
+                    <td><%= "Regular" %></td>
+                <% end %>
+            </tr>
+        <% end %>
+        </tbody>
+  </table>
+</div>

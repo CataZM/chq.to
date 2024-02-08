@@ -1,6 +1,6 @@
-class CreateLinkRegulars < ActiveRecord::Migration[7.1]
+class CreateLinks < ActiveRecord::Migration[7.1]
   def change
-    create_table :link_regulars do |t|
+    create_table :links do |t|
       t.string :name
       t.string :slug
       t.string :url
@@ -9,6 +9,6 @@ class CreateLinkRegulars < ActiveRecord::Migration[7.1]
 
       t.timestamps
     end
-    add_index :link_regulars, :slug, unique: true
+    add_index :links, :slug, unique: true
   end
 end

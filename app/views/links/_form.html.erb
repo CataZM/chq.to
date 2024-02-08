@@ -1,0 +1,55 @@
+<%= form_with(model: link) do |f| %>
+    <div class="field">
+        <%= f.label :name %>
+        <%= f.text_field :name %>
+    </div>
+
+    <div class="field">
+        <%= f.label :url %>
+        <%= f.text_field :url %>
+    </div>
+
+    <div class="field">
+        <%= f.label :type %>
+        <%= f.select :type, options_for_select([["Regular", "Link"], ["Temporal", "Temporal"], ["Privado", "Privado"], ["Efimero", "Efimero"]], selected: "Link") %>
+    </div>
+
+    <div class="field" id="privado" style="display:none;">
+        <%= f.label :password %>
+        <%= f.password_field :password %>
+    </div>
+
+    <div class="field" id="temporal" style="display:none;">
+        <%= f.label :expiration_date %>
+        <%= f.datetime_local_field  :expiration_date %>
+    </div>
+
+    <div class="actions">
+        <%= f.submit class: "btn btn-primary"%>
+    </div>
+<% end %>
+
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+        let select = document.getElementById('link_type'); 
+
+        select.addEventListener('change', function() {
+            let privado = document.getElementById('privado');
+            let temporal = document.getElementById('temporal');
+            privado.style.display = 'none';
+            temporal.style.display = 'none';
+            switch (this.value) {
+                case 'Temporal':
+                    temporal.style.display = 'block';
+                break;
+                case 'Privado':
+                    privado.style.display = 'block';
+                break;
+                default:
+                    privado.style.display = 'none';
+                    temporal.style.display = 'none';
+                break;
+            }
+        });
+    });
+</script>
