@@ -1,9 +1,9 @@
 # db/seed.rb
 
 # Limpiar datos existentes
-User.destroy_all
-Link.destroy_all
 Access.destroy_all
+Link.destroy_all
+User.destroy_all
 
 # Crear usuarios
 user1 = User.create(email: 'user1@example.com', password: 'password')
