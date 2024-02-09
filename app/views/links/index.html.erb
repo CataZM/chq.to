@@ -7,9 +7,9 @@
 <% end %>
 
 <% if current_user %>
-<%= button_to "Crear link", new_link_path, method: "get", class: "btn btn-small btn-primary mx-2" %>
     <div id="links_propios">
         <h2>Mis links</h2>
+        <%= button_to "Crear link", new_link_path, method: "get", class: "btn btn-small btn-primary mx-2" %>
         <table class="table table-striped">
             <thead>
             <tr>

@@ -1,24 +1,31 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+La aplicación Chq.to es un acortador de links. Su funcionamiento es sencillo y no significa una dificultad aprender a usarla. Un usuario puede registrarse, iniciar y cerrar sesión, crear nuevos links, utilizar los de otros usuarios, ver estadísticas de los propios e incluso eliminarlos.
 
-Things you may want to cover:
+* Versión de Ruby: 3.2.2
 
-* Ruby version
+* Instalación de la gema Rails: `gem install rails`
 
-* System dependencies
+* Instalación de las demás gemas y dependencias: `bundle install`
 
-* Configuration
+* Comando para la creación de la base de datos: `rails db:create`
 
-* Database creation
+* Comando para la creación y ejecución de las migraciones: `rails db:migrate`
 
-* Database initialization
+* Comando para ejecutar la aplicación (modo desarrollador): `rails server`
 
-* How to run the test suite
 
-* Services (job queues, cache servers, search engines, etc.)
+## Usuarios para testear las funcionalidades
 
-* Deployment instructions
+* user1:
+    email: user1@example.com
+    password: password
 
-* ...
+* user2:
+    email: user2@example.com
+    password: password
+
+* user3:
+    email: user3@example.com
+    password: password
+

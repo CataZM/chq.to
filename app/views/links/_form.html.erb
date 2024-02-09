@@ -1,26 +1,26 @@
 <%= form_with(model: link) do |f| %>
     <div class="field">
-        <%= f.label :name %>
+        <%= f.label "Tipo" %>
+        <%= f.select :type, options_for_select([["Regular", "Link"], ["Temporal", "Temporal"], ["Privado", "Privado"], ["Efimero", "Efimero"]], selected: "Link") %>
+    </div>
+
+    <div class="field">
+        <%= f.label "Nombre" %>
         <%= f.text_field :name %>
     </div>
 
     <div class="field">
-        <%= f.label :url %>
+        <%= f.label "URL original" %>
         <%= f.text_field :url %>
     </div>
 
-    <div class="field">
-        <%= f.label :type %>
-        <%= f.select :type, options_for_select([["Regular", "Link"], ["Temporal", "Temporal"], ["Privado", "Privado"], ["Efimero", "Efimero"]], selected: "Link") %>
-    </div>
-
     <div class="field" id="privado" style="display:none;">
-        <%= f.label :password %>
+        <%= f.label "Contraseña de acceso" %>
         <%= f.password_field :password %>
     </div>
 
     <div class="field" id="temporal" style="display:none;">
-        <%= f.label :expiration_date %>
+        <%= f.label "Fecha de expiración" %>
         <%= f.datetime_local_field  :expiration_date %>
     </div>
 
