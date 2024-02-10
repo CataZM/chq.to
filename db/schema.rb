@@ -10,12 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_08_103156) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_10_004719) do
   create_table "accesses", force: :cascade do |t|
     t.integer "link_id", null: false
     t.string "ip_address"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "link_type"
     t.index ["link_id"], name: "index_accesses_on_link_id"
   end
 
