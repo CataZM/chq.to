@@ -1,5 +1,11 @@
 <h1>Estadísticas del Link <%= @link.name %> </h1>
 
+<% if flash[:alert].present? %>
+  <div class="alert alert-danger" role="alert">
+    <%= flash[:alert] %>
+  </div>
+<% end %>
+
 <%= form_tag(stats_link_path(@link), method: "get") do %>
   <div class="field">
     <%= label_tag :ip_address, "Buscar por dirección IP:" %>
@@ -8,12 +14,12 @@
 
   <div class="field">
     <%= label_tag :start_date, "Fecha de inicio:" %>
-    <%= date_field_tag :start_date, params[:start_date] %>
+    <%= date_field_tag :start_date, params[:start_date], max: Date.today.to_s %>
   </div>
 
   <div class="field">
     <%= label_tag :end_date, "Fecha de fin:" %>
-    <%= date_field_tag :end_date, params[:end_date] %>
+    <%= date_field_tag :end_date, params[:end_date], max: Date.today.to_s %>
   </div>
 
   <%= submit_tag "Buscar", class: "btn btn-primary" %>

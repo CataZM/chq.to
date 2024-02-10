@@ -40,7 +40,7 @@ end
 create_accesses(link1, 10)
 link1.update!(access_count: 10)
 create_accesses(link2, 10)
-create_accesses(link2, 10)
+link2.update!(access_count: 10)
 create_accesses(link3, 1)
 link3.update!(accessed: true, access_count: 1)
 create_accesses(link4, 10)

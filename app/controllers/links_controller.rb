@@ -48,9 +48,8 @@ class LinksController < ApplicationController
         case @link.type
         when 'Regular'
             @link.access_count += 1
+            @link.accesses.create(ip_address: request.remote_ip)
             @link.save
-            @access = new Access(link: @link, ip_address: request.remote_ip)
-            @access.save
             redirect_to @link.url, allow_other_host: true
         when 'Temporal'
             redirect_to_temporal_link
@@ -86,10 +85,17 @@ class LinksController < ApplicationController
 
     # GET /links/:id/stats
     def stats
+        # Validar que end_date sea anterior a start_date
+        if params[:start_date].present? && params[:end_date].present? && params[:end_date] < params[:start_date]
+            flash[:alert] = 'La fecha de fin debe ser posterior a la fecha de inicio.'
+            redirect_back(fallback_location: stats_link_path(params[:id]))
+            return
+        end
+
         @link = Link.find(params[:id])
 
         # Obtener detalles de accesos
-        @access_details = Access.where(link: @link).order(created_at: :desc)
+        @access_details = @access_details = filter_access_details(@link, params[:ip_address], params[:start_date], params[:end_date])
 
         # Obtener la cantidad de accesos por día
         @access_count_by_day = Access.where(link: @link).group(Arel.sql('DATE(created_at)')).count
@@ -106,9 +112,8 @@ class LinksController < ApplicationController
         if entered_password == @link.password
             # Contraseña correcta, redirigir a la URL original del link
             @link.access_count += 1
+            @link.accesses.create(ip_address: request.remote_ip)
             @link.save
-            @access = Access.create(link: @link, ip_address: request.remote_ip)
-            @access.save
             redirect_to @link.url, allow_other_host: true
         else
             # Contraseña incorrecta, mostrar mensaje de error y redirigir a la lista de links
@@ -146,9 +151,8 @@ class LinksController < ApplicationController
         else
             # El enlace temporal es válido, contabiliza el acceso y realiza la redirección
             @link.access_count += 1
+            @link.accesses.create(ip_address: request.remote_ip)
             @link.save
-            @access = new Access(link: @link, ip_address: request.remote_ip)
-            @access.save
             redirect_to @link.url, allow_other_host: true
         end
     end
@@ -162,9 +166,8 @@ class LinksController < ApplicationController
             # El enlace efímero es válido, contabiliza el acceso y realiza la redirección
             @link.access_count += 1
             @link.accessed = true
+            @link.accesses.create(ip_address: request.remote_ip)
             @link.save
-            @access = new Access(link: @link, ip_address: request.remote_ip)
-            @access.save
             redirect_to @link.url, allow_other_host: true
         end
     end
@@ -173,4 +176,20 @@ class LinksController < ApplicationController
         @link = Link.find(params[:id])
         render 'links/redirect_to_privado_link'
     end
+
+    def filter_access_details(link, ip_address, start_date, end_date)
+        access_details = Access.where(link: link)
+      
+        # Filtrar por dirección IP
+        access_details = access_details.where(ip_address: ip_address) if ip_address.present?
+      
+        # Filtrar por rango de fechas
+        if start_date.present? && end_date.present?
+          start_date = DateTime.parse(start_date)
+          end_date = DateTime.parse(end_date).end_of_day
+          access_details = access_details.where(created_at: start_date..end_date)
+        end
+      
+        access_details.order(created_at: :desc)
+      end
 end
